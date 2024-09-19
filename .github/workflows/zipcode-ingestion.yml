@@ -14,10 +14,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4  # Updated from v3 to v4
 
     - name: Set up JDK 17
-      uses: actions/setup-java@v3
+      uses: actions/setup-java@v4  # Updated from v3 to v4
       with:
         java-version: '17'
         distribution: 'temurin'
@@ -32,7 +32,7 @@ jobs:
       run: java -jar target/zipcode-importer-0.0.1-SNAPSHOT.jar
 
     - name: Upload ingestion log
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4  # Updated from v3 to v4
       with:
         name: ingestion-log
         path: ingestion.log
