@@ -29,6 +29,8 @@ jobs:
         mvn --version
         echo "JAVA_HOME: $JAVA_HOME"
         echo "PATH: $PATH"
+        which java
+        readlink -f $(which java)
 
     - name: List project files
       run: |
@@ -38,7 +40,9 @@ jobs:
       run: cat pom.xml
 
     - name: Build with Maven
-      run: mvn -B clean package --file pom.xml -X
+      run: |
+        export JAVA_HOME=$JAVA_HOME_17_X64
+        mvn -B clean package --file pom.xml -X
 
     - name: Run Zip Code Ingestion
       env:
