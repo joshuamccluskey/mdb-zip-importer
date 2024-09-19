@@ -23,26 +23,29 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Print Java and Maven versions
+    - name: Debug Java and Maven environment
       run: |
+        echo "Java version:"
         java -version
-        mvn --version
         echo "JAVA_HOME: $JAVA_HOME"
         echo "PATH: $PATH"
-        which java
-        readlink -f $(which java)
-
-    - name: List project files
-      run: |
-        ls -R
-
-    - name: Display pom.xml content
-      run: cat pom.xml
+        echo "Maven version:"
+        mvn --version
+        echo "Maven home:"
+        mvn -v | grep "Maven home"
+        echo "Java compiler version:"
+        javac -version
+        echo "Effective Maven settings:"
+        mvn help:effective-settings
+        echo "Listing .mvn directory:"
+        ls -la .mvn || echo ".mvn directory not found"
+        echo "Content of .mvn/jvm.config (if exists):"
+        cat .mvn/jvm.config || echo ".mvn/jvm.config not found"
+        echo "Content of pom.xml:"
+        cat pom.xml
 
     - name: Build with Maven
-      run: |
-        export JAVA_HOME=$JAVA_HOME_17_X64
-        mvn -B clean package --file pom.xml -X
+      run: mvn -B clean package --file pom.xml -X
 
     - name: Run Zip Code Ingestion
       env:
